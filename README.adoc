@@ -48,7 +48,7 @@ To configure:
 
 
 
-== How to Use:
+== How to Use
 
 Use either with the:
 
