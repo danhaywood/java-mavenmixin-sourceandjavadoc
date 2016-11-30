@@ -20,7 +20,49 @@ This module was initially developed for use within link:http://isis.apache.org[A
 
 To configure:
 
-* add the following to the `pom.xml` of each module: +
+* copy and paste the following into either the `pom.xml` of the consuming module or (better still) the `pom.xml` of the top-level parent of the consuming module: +
++
+[source,xml]
+----
+<properties>
+    ...
+    <mavenmixin-sourceandjavadoc.version>0.0.2</mavenmixin-sourceandjavadoc.version>
+    
+    <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
+    <maven-jxr-plugin.version>2.4</maven-jxr-plugin.version>
+    <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
+    ...
+</properties>
+----
++
+and: +
++
+[source,xml]
+----
+<build>
+    <pluginManagement>
+        <plugins>
+            ...
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>${maven-jxr-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+            </plugin>
+            ...
+        </plugins>
+    </pluginManagement>
+</build>
+----
+
+
+* add the following to the `pom.xml` of the consuming module: +
 +
 [source,xml]
 ----
@@ -36,7 +78,7 @@ To configure:
                     <mixin>
                         <groupId>com.danhaywood.mavenmixin</groupId>
                         <artifactId>sourceandjavadoc</artifactId>
-                        <version>0.0.1</version>
+                        <version>${mavenmixin-sourceandjavadoc.version}</version>
                     </mixin>
                 </mixins>
             </configuration>
@@ -56,7 +98,7 @@ Use either with the:
 +
 [source,bash]
 ----
-mvn clean package -Ddanhaywood-mavenmixin-sourceandjavadoc
+mvn clean package -Dmavenmixin-sourceandjavadoc
 ----
 +
 This will generate JAR files
@@ -65,7 +107,7 @@ This will generate JAR files
 +
 [source,bash]
 ----
-mvn clean site -Ddanhaywood-mavenmixin-sourceandjavadoc
+mvn clean site -Dmavenmixin-sourceandjavadoc
 ----
 +
 This will generate HTML websites
@@ -80,6 +122,7 @@ None currently
 
 == Change Log
 
+* `0.0.2` - updates README for properties and plugin management, shortens property names and profile id
 * `0.0.1` - first release
 
 
@@ -133,8 +176,8 @@ For example:
 
 [source]
 ----
-sh release.sh 0.0.1 \
-              0.0.2-SNAPSHOT \
+sh release.sh 0.0.2 \
+              0.0.3-SNAPSHOT \
               dan@haywood-associates.co.uk \
               "this is not really my passphrase"
 ----
@@ -154,7 +197,7 @@ If the script completes successfully, then push changes:
 [source]
 ----
 git push origin master
-git push origin 0.0.1
+git push origin 0.0.2
 ----
 
 If the script fails to complete, then identify the cause, perform a `git reset --hard` to start over and fix the issue before trying again.
